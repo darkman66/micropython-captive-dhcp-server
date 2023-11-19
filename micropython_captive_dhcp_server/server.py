@@ -1,5 +1,12 @@
-import usocket as socket
-import uasyncio as asyncio
+try:
+    import usocket as socket
+except ImportError:
+    import socket
+
+try:
+    import uasyncio as asyncio
+except ImportError:
+    import asyncio
 
 try:
     from micropython_captive_dhcp_server.packet import (
@@ -101,13 +108,18 @@ class CaptiveDhcpServer:
 
                     self.send_broadcast_reply(reply)
 
-                await asyncio.sleep_ms(100)
+                await asyncio.sleep(0.1)
 
             except OSError:
-                await asyncio.sleep_ms(500)
+                await asyncio.sleep(0.5)
 
             except Exception as e:
                 print(f"Exception {e}")
-                await asyncio.sleep_ms(500)
+                await asyncio.sleep(0.5)
 
         udps.close()
+
+
+if __name__ == "__main__":
+    run_app = CaptiveDhcpServer()
+    asyncio.run(run_app.run('10.65.4.1', '255.255.0.0'))
