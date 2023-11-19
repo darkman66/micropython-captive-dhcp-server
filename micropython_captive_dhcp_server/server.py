@@ -116,7 +116,6 @@ class CaptiveDhcpServer:
             except Exception as e:
                 print(f"Exception {e}")
                 await asyncio.sleep(0.5)
-
         udps.close()
 
 
