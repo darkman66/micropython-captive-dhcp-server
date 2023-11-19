@@ -50,9 +50,7 @@ class CaptiveDhcpServer:
             udpb.setsockopt(socket.SOL_SOCKET, 0x20, 1)
 
             udpb.setblocking(False)
-            broadcast_addr = socket.getaddrinfo(
-                "255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM
-            )[0][4]
+            broadcast_addr = socket.getaddrinfo("255.255.255.255", 68, socket.AF_INET, socket.SOCK_DGRAM)[0][4]
             print(f"Broadcasting Response: {reply}")
             udpb.sendto(reply, broadcast_addr)
         except Exception as e:
@@ -69,9 +67,7 @@ class CaptiveDhcpServer:
         while not bound:
             try:
                 gc.collect()
-                addr = socket.getaddrinfo(
-                    "0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM
-                )[0][-1]
+                addr = socket.getaddrinfo("0.0.0.0", 67, socket.AF_INET, socket.SOCK_DGRAM)[0][-1]
                 udps.bind(addr)
                 print("Starting server on port 67")
                 bound = True
@@ -116,9 +112,10 @@ class CaptiveDhcpServer:
             except Exception as e:
                 print(f"Exception {e}")
                 await asyncio.sleep(0.5)
+
         udps.close()
 
 
 if __name__ == "__main__":
     run_app = CaptiveDhcpServer()
-    asyncio.run(run_app.run('10.65.4.1', '255.255.0.0'))
+    asyncio.run(run_app.run("10.65.4.1", "255.255.0.0"))
